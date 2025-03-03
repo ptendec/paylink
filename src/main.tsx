@@ -1,4 +1,5 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { ConfigProvider } from 'antd';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
@@ -15,7 +16,15 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#1677ff',
+          },
+        }}
+      >
+        <RouterProvider router={router} />
+      </ConfigProvider>
     </StrictMode>,
   );
 }

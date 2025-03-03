@@ -11,9 +11,13 @@
     "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}'"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.6.1",
     "@tanstack/react-router": "^1.112.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "antd": "^5.24.2",
+    "react": "18",
+    "react-dom": "18",
+    "vite-tsconfig-paths": "^5.1.4",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

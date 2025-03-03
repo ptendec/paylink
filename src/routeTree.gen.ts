@@ -12,8 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as AboutIndexImport } from './routes/about/index'
-import { Route as AboutHelloImport } from './routes/about/hello'
+import { Route as TrustedDevicesIndexImport } from './routes/trusted-devices/index'
+import { Route as AuthentificationVerifyImport } from './routes/authentification/verify'
+import { Route as AuthentificationLoginImport } from './routes/authentification/login'
 
 // Create/Update Routes
 
@@ -23,15 +24,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutIndexRoute = AboutIndexImport.update({
-  id: '/about/',
-  path: '/about/',
+const TrustedDevicesIndexRoute = TrustedDevicesIndexImport.update({
+  id: '/trusted-devices/',
+  path: '/trusted-devices/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutHelloRoute = AboutHelloImport.update({
-  id: '/about/hello',
-  path: '/about/hello',
+const AuthentificationVerifyRoute = AuthentificationVerifyImport.update({
+  id: '/authentification/verify',
+  path: '/authentification/verify',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthentificationLoginRoute = AuthentificationLoginImport.update({
+  id: '/authentification/login',
+  path: '/authentification/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,18 +53,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about/hello': {
-      id: '/about/hello'
-      path: '/about/hello'
-      fullPath: '/about/hello'
-      preLoaderRoute: typeof AboutHelloImport
+    '/authentification/login': {
+      id: '/authentification/login'
+      path: '/authentification/login'
+      fullPath: '/authentification/login'
+      preLoaderRoute: typeof AuthentificationLoginImport
       parentRoute: typeof rootRoute
     }
-    '/about/': {
-      id: '/about/'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutIndexImport
+    '/authentification/verify': {
+      id: '/authentification/verify'
+      path: '/authentification/verify'
+      fullPath: '/authentification/verify'
+      preLoaderRoute: typeof AuthentificationVerifyImport
+      parentRoute: typeof rootRoute
+    }
+    '/trusted-devices/': {
+      id: '/trusted-devices/'
+      path: '/trusted-devices'
+      fullPath: '/trusted-devices'
+      preLoaderRoute: typeof TrustedDevicesIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -67,42 +81,60 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about/hello': typeof AboutHelloRoute
-  '/about': typeof AboutIndexRoute
+  '/authentification/login': typeof AuthentificationLoginRoute
+  '/authentification/verify': typeof AuthentificationVerifyRoute
+  '/trusted-devices': typeof TrustedDevicesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about/hello': typeof AboutHelloRoute
-  '/about': typeof AboutIndexRoute
+  '/authentification/login': typeof AuthentificationLoginRoute
+  '/authentification/verify': typeof AuthentificationVerifyRoute
+  '/trusted-devices': typeof TrustedDevicesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about/hello': typeof AboutHelloRoute
-  '/about/': typeof AboutIndexRoute
+  '/authentification/login': typeof AuthentificationLoginRoute
+  '/authentification/verify': typeof AuthentificationVerifyRoute
+  '/trusted-devices/': typeof TrustedDevicesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about/hello' | '/about'
+  fullPaths:
+    | '/'
+    | '/authentification/login'
+    | '/authentification/verify'
+    | '/trusted-devices'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about/hello' | '/about'
-  id: '__root__' | '/' | '/about/hello' | '/about/'
+  to:
+    | '/'
+    | '/authentification/login'
+    | '/authentification/verify'
+    | '/trusted-devices'
+  id:
+    | '__root__'
+    | '/'
+    | '/authentification/login'
+    | '/authentification/verify'
+    | '/trusted-devices/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutHelloRoute: typeof AboutHelloRoute
-  AboutIndexRoute: typeof AboutIndexRoute
+  AuthentificationLoginRoute: typeof AuthentificationLoginRoute
+  AuthentificationVerifyRoute: typeof AuthentificationVerifyRoute
+  TrustedDevicesIndexRoute: typeof TrustedDevicesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutHelloRoute: AboutHelloRoute,
-  AboutIndexRoute: AboutIndexRoute,
+  AuthentificationLoginRoute: AuthentificationLoginRoute,
+  AuthentificationVerifyRoute: AuthentificationVerifyRoute,
+  TrustedDevicesIndexRoute: TrustedDevicesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +148,22 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about/hello",
-        "/about/"
+        "/authentification/login",
+        "/authentification/verify",
+        "/trusted-devices/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about/hello": {
-      "filePath": "about/hello.tsx"
+    "/authentification/login": {
+      "filePath": "authentification/login.tsx"
     },
-    "/about/": {
-      "filePath": "about/index.tsx"
+    "/authentification/verify": {
+      "filePath": "authentification/verify.tsx"
+    },
+    "/trusted-devices/": {
+      "filePath": "trusted-devices/index.tsx"
     }
   }
 }
