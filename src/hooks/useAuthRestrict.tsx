@@ -11,9 +11,7 @@ export const useAuthRestrict = () => {
   const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    console.log(PROTECTED_URLS.includes(pathname) && !isAuthenticated);
     if (PROTECTED_URLS.includes(pathname) && !isAuthenticated) {
-      console.log(pathname);
       navigate({ to: '/authentification/login' });
     }
   }, [isAuthenticated, pathname, router, navigate]);
