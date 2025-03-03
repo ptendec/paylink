@@ -11,9 +11,10 @@ interface Props {
 }
 
 export const OTPModal: React.FC<Props> = ({ isOpen, setOpen }) => {
-  const { setAuthenticated, tempToken, setTempToken } = useAuthStore();
+  const { setAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const [value, setValue] = useState('');
+  const tempToken = localStorage.getItem('tempToken');
 
   const verifySecondStep = useCallback(async () => {
     try {
@@ -31,9 +32,9 @@ export const OTPModal: React.FC<Props> = ({ isOpen, setOpen }) => {
       if (isUnifiedError(error)) message.error(error.message);
       setOpen(false);
     } finally {
-      setTempToken(undefined);
+      localStorage.removeItem('tempToken');
     }
-  }, [value, setOpen, setAuthenticated, setTempToken, navigate, tempToken]);
+  }, [value, setOpen, setAuthenticated, navigate, tempToken]);
 
   useEffect(() => {
     if (value.length !== 6) return;

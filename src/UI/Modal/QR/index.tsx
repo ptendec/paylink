@@ -1,6 +1,5 @@
 import { Modal, QRCode } from 'antd';
 import React from 'react';
-import { useAuthStore } from 'store/auth';
 
 interface Props {
   isOpen: boolean;
@@ -9,8 +8,7 @@ interface Props {
 }
 
 export const QRModal: React.FC<Props> = ({ isOpen, setOpen, onScan }) => {
-  const { tempToken } = useAuthStore();
-
+  const tempToken = localStorage.getItem('tempToken');
   return (
     <Modal
       closable
