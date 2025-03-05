@@ -1,8 +1,12 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Layout } from 'UI/Layout';
 
-export const Route = createRootRoute({
+interface Context {
+  isAuthenticated: boolean;
+}
+
+export const Route = createRootRouteWithContext<Context>()({
   component: () => (
     <Layout>
       <Outlet />

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Card, Popconfirm, Table, Typography } from 'antd';
@@ -80,4 +80,12 @@ const Component: React.FC = () => {
 
 export const Route = createFileRoute('/trusted-devices/')({
   component: Component,
+  beforeLoad: ({ context, location }) => {
+    if (!context.isAuthenticated) {
+      throw redirect({
+        to: '/authentification/login',
+        search: { redirect: location.href },
+      });
+    }
+  },
 });
