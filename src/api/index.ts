@@ -1,5 +1,4 @@
 const API_URL = import.meta.env.VITE_API_URL as string;
-
 export const _fetch = async (endpoint: string, options: RequestInit = {}) => {
   const token = localStorage.getItem('accessToken');
 
@@ -15,11 +14,16 @@ export const _fetch = async (endpoint: string, options: RequestInit = {}) => {
   });
 
   if (!response.ok && response.status !== 202) {
-    const error = await response
-      .json()
-      .catch(() => ({ message: 'An error occurred' }));
+    const errorText = await response.text();
+    let error;
+    try {
+      error = JSON.parse(errorText);
+    } catch {
+      error = { message: 'An error occurred' };
+    }
     throw new Error(error.message || 'An error occurred');
   }
 
-  return response.json();
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
 };
