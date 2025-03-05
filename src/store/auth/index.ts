@@ -4,6 +4,10 @@ import { persist } from 'zustand/middleware';
 interface AuthState {
   isAuthenticated: boolean;
   setAuthenticated: (flag: boolean) => void;
+
+  tempToken?: string;
+  setTempToken: (tempToken?: string) => void;
+
   logout: () => void;
 }
 
@@ -14,6 +18,11 @@ export const useAuthStore = create<AuthState>()(
       setAuthenticated: () => {
         set({
           isAuthenticated: true,
+        });
+      },
+      setTempToken(tempToken) {
+        set({
+          tempToken,
         });
       },
       logout: () => {

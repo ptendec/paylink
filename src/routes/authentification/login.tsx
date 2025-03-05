@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Button, Card, Form, Input } from 'antd';
+import { Button, Card, Form, Input, message } from 'antd';
 import { useState } from 'react';
 
+import { generateQrCode } from 'api/auth';
 import { useLogin } from 'hooks/useLogin';
 import { OTPModal } from 'UI/Modal/OTP';
 import { QRModal } from 'UI/Modal/QR';
+import { isUnifiedError } from 'utils/isUnifiedError';
 
 interface LoginValues {
   email: string;
@@ -18,6 +20,7 @@ const Component: React.FC = () => {
 
   const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
   const [isQRModalOpen, setIsQrModalOpen] = useState(false);
+  const [qr, setQr] = useState<string>();
 
   const onFinish = async ({ email, password }: LoginValues) => {
     const response = await handleLogin({ email, password });
@@ -34,7 +37,18 @@ const Component: React.FC = () => {
 
     if (twoFactorSetupRequired && tempToken) {
       onSetTempToken(tempToken);
-      setIsQrModalOpen(true);
+      if (!tempToken) return;
+      try {
+        const result = await generateQrCode({
+          tempToken,
+        });
+        setQr(result.totpQrCodeUrl);
+        setIsQrModalOpen(true);
+      } catch (error) {
+        if (isUnifiedError(error)) {
+          message.error(error.message);
+        }
+      }
       return;
     }
 
@@ -48,13 +62,12 @@ const Component: React.FC = () => {
   return (
     <>
       <QRModal
+        qr={qr}
         isOpen={isQRModalOpen}
         setOpen={setIsQrModalOpen}
         onScan={() => setIsOTPModalOpen(true)}
       />
-
       <OTPModal isOpen={isOTPModalOpen} setOpen={setIsOTPModalOpen} />
-
       <Card title="Login" style={{ maxWidth: 400, margin: '100px auto' }}>
         <Form
           form={form}

@@ -5,12 +5,13 @@ interface Props {
   isOpen: boolean;
   setOpen: (flag: boolean) => void;
   onScan: () => void;
+  qr?: string;
 }
 
-export const QRModal: React.FC<Props> = ({ isOpen, setOpen, onScan }) => {
-  const tempToken = localStorage.getItem('tempToken');
+export const QRModal: React.FC<Props> = ({ isOpen, setOpen, onScan, qr }) => {
   return (
     <Modal
+      destroyOnClose
       closable
       title="QR"
       cancelButtonProps={{
@@ -26,8 +27,8 @@ export const QRModal: React.FC<Props> = ({ isOpen, setOpen, onScan }) => {
       width="350px"
       okText="Done"
     >
-      {tempToken ? (
-        <QRCode size={300} value={tempToken} />
+      {qr ? (
+        <QRCode size={300} value={qr} />
       ) : (
         'Something went wrong. Try again'
       )}

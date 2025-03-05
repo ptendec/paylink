@@ -8,7 +8,7 @@ import { isUnifiedError } from 'utils/isUnifiedError';
 
 export const useLogin = () => {
   const navigate = useNavigate();
-  const { setAuthenticated } = useAuthStore();
+  const { setAuthenticated, setTempToken } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (payload: LoginRequest) => {
@@ -36,7 +36,7 @@ export const useLogin = () => {
   };
 
   const onSetTempToken = (tempToken: string) => {
-    localStorage.setItem('tempToken', tempToken);
+    setTempToken(tempToken);
   };
 
   return {

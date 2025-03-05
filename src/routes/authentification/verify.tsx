@@ -7,11 +7,10 @@ import { isUnifiedError } from 'utils/isUnifiedError';
 
 const Component: React.FC = () => {
   const navigate = useNavigate();
-  const { setAuthenticated } = useAuthStore();
+  const { setAuthenticated, tempToken } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = async (values: { code: string }) => {
-    const tempToken = localStorage.getItem('tempToken');
     if (!tempToken) return;
     try {
       setLoading(true);

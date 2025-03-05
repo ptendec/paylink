@@ -11,10 +11,9 @@ interface Props {
 }
 
 export const OTPModal: React.FC<Props> = ({ isOpen, setOpen }) => {
-  const { setAuthenticated } = useAuthStore();
+  const { setAuthenticated, setTempToken, tempToken } = useAuthStore();
   const navigate = useNavigate();
   const [value, setValue] = useState('');
-  const tempToken = localStorage.getItem('tempToken');
 
   const verifySecondStep = useCallback(async () => {
     try {
@@ -26,15 +25,15 @@ export const OTPModal: React.FC<Props> = ({ isOpen, setOpen }) => {
         message.success('2FA setup successful');
         localStorage.setItem('accessToken', response.token);
         navigate({ to: '/trusted-devices' });
-        setValue('');
       }
     } catch (error) {
       if (isUnifiedError(error)) message.error(error.message);
-      setOpen(false);
     } finally {
-      localStorage.removeItem('tempToken');
+      setTempToken();
+      setOpen(false);
+      setValue('');
     }
-  }, [value, setOpen, setAuthenticated, navigate, tempToken]);
+  }, [tempToken, value, setAuthenticated, navigate, setTempToken, setOpen]);
 
   useEffect(() => {
     if (value.length !== 6) return;
